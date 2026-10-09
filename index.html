@@ -213,5 +213,43 @@ window.open("https://wa.me/22770162258?text="+msg,"_blank");
 });
 renderProducts();renderCart();
 </script>
+<section id="account" style="padding:25px; text-align:center;">
+  <h2>Mon compte ABS</h2>
+  <p>Créez votre compte ou connectez-vous.</p>
+
+  <input
+    id="accountEmail"
+    type="email"
+    placeholder="Votre adresse e-mail"
+    autocomplete="email"
+    required
+  >
+
+  <br><br>
+
+  <input
+    id="accountPassword"
+    type="password"
+    placeholder="Mot de passe"
+    autocomplete="current-password"
+    required
+  >
+
+  <br><br>
+
+  <button type="button" id="createAccountBtn">
+    Créer mon compte
+  </button>
+
+  <button type="button" id="loginBtn">
+    Se connecter
+  </button>
+
+  <button type="button" id="logoutBtn" hidden>
+    Se déconnecter
+  </button>
+
+  <p id="accountMessage" role="status"></p>
+</section>
 </body>
 </html>
