@@ -251,5 +251,71 @@ renderProducts();renderCart();
 
   <p id="accountMessage" role="status"></p>
 </section>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAAPTXI1XgocRJtN3FDMUTMwBgiUzG8ymk",
+  authDomain: "abs-boutique.firebaseapp.com",
+  projectId: "abs-boutique",
+  storageBucket: "abs-boutique.firebasestorage.app",
+  messagingSenderId: "935883852934",
+  appId: "1:935883852934:web:7b410699768c024860d507"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const email = document.getElementById("accountEmail");
+const password = document.getElementById("accountPassword");
+const message = document.getElementById("accountMessage");
+const createBtn = document.getElementById("createAccountBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+createBtn.addEventListener("click", async () => {
+  try {
+    await createUserWithEmailAndPassword(auth, email.value.trim(), password.value);
+    message.textContent = "Compte créé avec succès !";
+  } catch (error) {
+    message.textContent = "Erreur : " + error.message;
+  }
+});
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
+    message.textContent = "Connexion réussie !";
+  } catch (error) {
+    message.textContent = "Erreur : " + error.message;
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    message.textContent = "Vous êtes déconnecté.";
+  } catch (error) {
+    message.textContent = "Erreur : " + error.message;
+  }
+});
+
+onAuthStateChanged(auth, user => {
+  createBtn.hidden = !!user;
+  loginBtn.hidden = !!user;
+  logoutBtn.hidden = !user;
+
+  if (user) {
+    message.textContent = "Connecté : " + user.email;
+  }
+});
+</script>
 </body>
 </html>
