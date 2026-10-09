@@ -154,8 +154,46 @@ const products=[
 ];
 let cart=[];
 const money=n=>n.toLocaleString("fr-FR");
-function renderProducts(list=products){document.querySelector("#products").innerHTML=list.map(p=>`
-<div class="card"><div class="photo"><img src="images/${p.image}" alt="${p.name}"></div><div class="info"><div class="cat">${p.cat}</div><h3>${p.name}</h3><div class="price">${money(p.price)} FCFA</div><button class="add" onclick="add(${p.id})">Ajouter au panier</button></div></div>`).join("")}
+
+function renderProducts(list=products){
+  document.querySelector("#products").innerHTML=list.map(p=>`
+    <div class="card">
+      <div class="photo" onclick="showProduct(${p.id})">
+        <img src="images/${p.image}" alt="${p.name}">
+      </div>
+      <div class="info">
+        <div class="cat">${p.cat}</div>
+        <h3>${p.name}</h3>
+        <div class="price">${money(p.price)} FCFA</div>
+        <button class="add" onclick="add(${p.id})">Ajouter au panier</button>
+      </div>
+    </div>`).join("");
+}
+
+function showProduct(id){
+  const p=products.find(item=>item.id===id);
+  if(!p)return;
+
+  document.querySelector("#detailImage").src="images/"+p.image;
+  document.querySelector("#detailImage").alt=p.name;
+  document.querySelector("#detailCategory").textContent=p.cat;
+  document.querySelector("#detailName").textContent=p.name;
+  document.querySelector("#detailPrice").textContent=money(p.price)+" FCFA";
+  document.querySelector("#detailDescription").textContent=
+    p.description || "Découvrez ce produit de notre collection ABS.";
+
+  document.querySelector("#detailAdd").onclick=function(){
+    add(p.id);
+    closeProduct();
+  };
+
+  document.querySelector("#productModal").classList.add("open");
+}
+
+function closeProduct(){
+  document.querySelector("#productModal").classList.remove("open");
+}
+
 function add(id){let x=cart.find(i=>i.id===id);x?x.qty++:cart.push({id,qty:1});renderCart()}
 function change(id,d){let x=cart.find(i=>i.id===id);if(!x)return;x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart()}
 function renderCart(){let box=document.querySelector("#cartItems");let count=cart.reduce((a,b)=>a+b.qty,0);document.querySelector("#count").textContent=count;
