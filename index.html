@@ -18,6 +18,66 @@ section{max-width:1100px;margin:auto;padding:35px 18px}h2{color:var(--gold)}
 #cart{background:#101014}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #29292e;padding:12px 0}.qty button{padding:3px 8px;margin:0 2px}.total{font-size:22px;color:var(--gold);font-weight:800;margin-top:18px}
 form{display:grid;gap:12px;background:var(--card);padding:18px;border-radius:14px}input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #3b3b42;background:#0c0c0f;color:#fff}label{font-size:14px;color:#ddd}.submit{padding:14px;background:#25d366;color:#061006;border:0;border-radius:9px;font-weight:900;font-size:16px}
 footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.note{color:#aaa;font-size:13px}
+
+/* ABS Product Details */
+.photo { cursor: pointer; }
+
+.product-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.85);
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.product-modal.open { display: flex; }
+
+.product-modal-content {
+  background: #151519;
+  border: 1px solid #d4af37;
+  border-radius: 14px;
+  padding: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.product-modal-content img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.product-modal-content h3 { color: #d4af37; }
+
+.detail-price {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.detail-close, .detail-add {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.detail-close {
+  background: #29292e;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.detail-add {
+  background: #d4af37;
+  width: 100%;
+  margin-top: 12px;
+}
+
 </style>
 </head>
 <body>
