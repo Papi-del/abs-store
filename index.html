@@ -94,7 +94,25 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
 <button onclick="filterProducts('Sacs',this)">Sacs</button>
 <button onclick="filterProducts('Chaussures',this)">Chaussures</button>
 </div>
-<div class="grid" id="products"></div></section>
+
+<div class="grid" id="products"></div>
+</section>
+
+<div class="product-modal" id="productModal"
+     role="dialog" aria-modal="true">
+  <div class="product-modal-content">
+    <button type="button" class="detail-close"
+            onclick="closeProduct()">Fermer ✕</button>
+    <img id="detailImage" src="" alt="">
+    <div class="cat" id="detailCategory"></div>
+    <h3 id="detailName"></h3>
+    <p id="detailDescription"></p>
+    <div class="detail-price" id="detailPrice"></div>
+    <button type="button" class="detail-add"
+            id="detailAdd">Ajouter au panier</button>
+  </div>
+</div>
+
 
 <section id="cart"><h2>Votre panier</h2><div id="cartItems"><p class="note">Votre panier est vide.</p></div><div class="total">Total : <span id="total">0</span> FCFA</div></section>
 
