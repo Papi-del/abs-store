@@ -59,21 +59,21 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
 <footer>© 2026 ABS. Tous droits réservés.</footer>
 
 <script>
+
 const products=[
-
 {id:1,name:"Rose Élégance",cat:"Parfums",price:8500,icon:"✦",image:"rose-elegance.jpg",description:"Un parfum élégant aux notes délicates pour accompagner vos plus beaux moments."},
-
-{id:2,name:"Oud Royal",cat:"Parfums",price:12000,icon:"✦",image:"oud-royal.jpg"},
-{id:3,name:"Musk Blanc",cat:"Parfums",price:7500,icon:"✦",image:"musk-blanc.jpg"},
-{id:4,name:"Vanilla Gold",cat:"Parfums",price:9500,icon:"✦",image:"vanilla-gold.jpg"},
-{id:5,name:"Classic Noir",cat:"Sacs",price:12500,icon:"◆",image:"classic-noir.jpg"},
-{id:6,name:"Élégance Beige",cat:"Sacs",price:15000,icon:"◆",image:"elegance-beige.jpg"},
-{id:7,name:"Mini Chic",cat:"Sacs",price:9500,icon:"◆",image:"mini-chic.jpg"},
-{id:8,name:"Lady Luxe",cat:"Sacs",price:18000,icon:"◆",image:"lady-luxe.jpg"},
-{id:9,name:"Sandales Élégance",cat:"Chaussures",price:8500,icon:"◇",image:"sandales-elegance.jpg"},
-{id:10,name:"Mocassins Chic",cat:"Chaussures",price:12500,icon:"◇",image:"mocassins-chic.jpg"},
-{id:11,name:"Flats Classiques",cat:"Chaussures",price:7500,icon:"◇",image:"flats-classiques.jpg"},
-{id:12,name:"Sandales Luxe",cat:"Chaussures",price:10000,icon:"◇",image:"sandales-luxe.jpg"}];
+{id:2,name:"Oud Royal",cat:"Parfums",price:12000,icon:"✦",image:"oud-royal.jpg",description:"Un parfum au caractère intense et raffiné pour une signature élégante."},
+{id:3,name:"Musk Blanc",cat:"Parfums",price:7500,icon:"✦",image:"musk-blanc.jpg",description:"Un parfum délicat et doux pour accompagner vos journées."},
+{id:4,name:"Vanilla Gold",cat:"Parfums",price:9500,icon:"✦",image:"vanilla-gold.jpg",description:"Une fragrance chaleureuse aux notes gourmandes et élégantes."},
+{id:5,name:"Classic Noir",cat:"Sacs",price:12500,icon:"◆",image:"classic-noir.jpg",description:"Un sac intemporel qui complète facilement vos tenues."},
+{id:6,name:"Élégance Beige",cat:"Sacs",price:15000,icon:"◆",image:"elegance-beige.jpg",description:"Un sac élégant dans une teinte beige facile à associer."},
+{id:7,name:"Mini Chic",cat:"Sacs",price:9500,icon:"◆",image:"mini-chic.jpg",description:"Un petit sac chic pour emporter vos essentiels."},
+{id:8,name:"Lady Luxe",cat:"Sacs",price:18000,icon:"◆",image:"lady-luxe.jpg",description:"Un sac raffiné pour apporter une touche de sophistication."},
+{id:9,name:"Sandales Élégance",cat:"Chaussures",price:8500,icon:"◇",image:"sandales-elegance.jpg",description:"Des sandales élégantes pour compléter vos tenues."},
+{id:10,name:"Mocassins Chic",cat:"Chaussures",price:12500,icon:"◇",image:"mocassins-chic.jpg",description:"Des mocassins au style classique pour vos sorties."},
+{id:11,name:"Flats Classiques",cat:"Chaussures",price:7500,icon:"◇",image:"flats-classiques.jpg",description:"Des chaussures plates pour un style simple et polyvalent."},
+{id:12,name:"Sandales Luxe",cat:"Chaussures",price:10000,icon:"◇",image:"sandales-luxe.jpg",description:"Des sandales raffinées pour une allure soignée."}
+];
 let cart=[];
 const money=n=>n.toLocaleString("fr-FR");
 function renderProducts(list=products){document.querySelector("#products").innerHTML=list.map(p=>`
