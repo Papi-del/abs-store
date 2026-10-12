@@ -42,13 +42,16 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
 
 .product-modal-content {
   background: #151519;
-  border: 1px solid #d4af37;
+  border: none;
   border-radius: 0;
-  padding: 24px 20px;
+  padding: 20px;
   width: 100%;
   max-width: none;
+  height: 100%;
   min-height: 100%;
   margin: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .product-modal-content img {
@@ -60,7 +63,9 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
   margin: 0 auto 20px;
 }
 
-.product-modal-content h3 { color: #d4af37; }
+.product-modal-content h3 {
+  color: #d4af37;
+}
 
 .detail-price {
   font-size: 20px;
