@@ -174,7 +174,7 @@ async function loadProducts() {
       row.className = "product";
 
       const title = document.createElement("strong");
-      title.textContent = product.name || "Produit sans nom";
+      title.textContent = product.name || product.Name || "Produit sans nom";
 
       const details = document.createElement("p");
 details.textContent =
