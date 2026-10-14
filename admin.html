@@ -177,10 +177,10 @@ async function loadProducts() {
       title.textContent = product.name || "Produit sans nom";
 
       const details = document.createElement("p");
-      details.textContent =
-        (product.cat || product.category || "Sans catégorie") +
-        " · " + Number(product.price || 0).toLocaleString("fr-FR") +
-        " FCFA";
+details.textContent =
+  (product.cat || product.category || "Sans catégorie") +
+  " · " + Number(product.price ?? product.Price ?? 0).toLocaleString("fr-FR") +
+  " FCFA";
 
       const edit = document.createElement("button");
       edit.textContent = "Modifier";
