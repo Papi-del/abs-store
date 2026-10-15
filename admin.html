@@ -154,6 +154,13 @@ async function loadProducts() {
   productsBox.textContent = "Chargement des produits...";
   try {
     const snapshot = await getDocs(collection(db, "products"));
+console.log(
+  "ABS Firestore products:",
+  snapshot.docs.map(item => ({
+    docId: item.id,
+    ...item.data()
+  }))
+);
     productRows = snapshot.docs.map(item => ({
       docId: item.id,
       ...item.data()
