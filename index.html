@@ -218,6 +218,7 @@ async function loadProductsFromFirestore() {
       !p.image
     )) {
       console.error("Some Firestore products have missing fields.");
+alert("Attention : certains produits Firebase ont des informations manquantes !");
       return;
     }
 
