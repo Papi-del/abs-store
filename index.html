@@ -218,16 +218,7 @@ async function loadProductsFromFirestore() {
       !p.image
     )) {
       console.error("Some Firestore products have missing fields.");
-alert("Produits avec erreurs : " + loadedProducts
-  .filter(p =>
-    !Number.isFinite(p.id) ||
-    !p.name ||
-    !p.cat ||
-    !Number.isFinite(p.price) ||
-    !p.image
-  )
-  .map(p => "ID: " + p.id + " | Nom: " + (p.name || "MANQUANT"))
-  .join("\n"));
+
       return;
     }
 
@@ -236,7 +227,7 @@ alert("Produits avec erreurs : " + loadedProducts
     console.log("Products loaded from Firestore:", products.length);
   } catch (error) {
   console.error("Firestore loading error:", error);
-  alert("Erreur Firebase : " + error.message);
+  
 }
 }
 
