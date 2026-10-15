@@ -225,8 +225,9 @@ async function loadProductsFromFirestore() {
     renderProducts();
     console.log("Products loaded from Firestore:", products.length);
   } catch (error) {
-    console.error("Firestore loading error:", error);
-  }
+  console.error("Firestore loading error:", error);
+  alert("Erreur Firebase : " + error.message);
+}
 }
 
 function renderProducts(list=products){
