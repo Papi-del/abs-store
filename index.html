@@ -150,8 +150,27 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
 </main>
 <footer>© 2026 ABS. Tous droits réservés.</footer>
 
-<script>
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAAPTXI1XgocRJtN3FDMUTMwBgiUzG8ymk",
+  authDomain: "abs-boutique.firebaseapp.com",
+  projectId: "abs-boutique",
+  storageBucket: "abs-boutique.firebasestorage.app",
+  messagingSenderId: "935883852934",
+  appId: "1:935883852934:web:7b410699768c024860d507"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 let products=[
 {id:1,name:"Rose Élégance",cat:"Parfums",price:8500,icon:"✦",image:"rose-elegance.jpg",description:"Un parfum élégant aux notes délicates pour accompagner vos plus beaux moments."},
 {id:2,name:"Oud Royal",cat:"Parfums",price:12000,icon:"✦",image:"oud-royal.jpg",description:"Un parfum au caractère intense et raffiné pour une signature élégante."},
@@ -268,6 +287,13 @@ window.open("https://wa.me/22770162258?text="+msg,"_blank");
 });
 renderProducts();renderCart();
 loadProductsFromFirestore();
+
+window.showProduct = showProduct;
+window.closeProduct = closeProduct;
+window.add = add;
+window.change = change;
+window.filterProducts = filterProducts;
+
 </script>
 <section id="account" style="padding:25px; text-align:center;">
   <h2>Mon compte ABS</h2>
