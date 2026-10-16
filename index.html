@@ -549,5 +549,36 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
+<!-- ABS BOUTIQUE SIDEBAR CONTROLS -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("menuOverlay");
+  const openBtn = document.getElementById("openSidebar");
+  const closeBtn = document.getElementById("closeSidebar");
+
+  function openMenu() {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+  }
+
+  function closeMenu() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+  }
+
+  openBtn.addEventListener("click", openMenu);
+  closeBtn.addEventListener("click", closeMenu);
+  overlay.addEventListener("click", closeMenu);
+
+  sidebar.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+});
+</script>
+
 </body>
 </html>
