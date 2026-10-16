@@ -19,6 +19,98 @@ section{max-width:1100px;margin:auto;padding:35px 18px}h2{color:var(--gold)}
 #cart{background:#101014}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #29292e;padding:12px 0}.qty button{padding:3px 8px;margin:0 2px}.total{font-size:22px;color:var(--gold);font-weight:800;margin-top:18px}
 form{display:grid;gap:12px;background:var(--card);padding:18px;border-radius:14px}input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #3b3b42;background:#0c0c0f;color:#fff}label{font-size:14px;color:#ddd}.submit{padding:14px;background:#25d366;color:#061006;border:0;border-radius:9px;font-weight:900;font-size:16px}
 footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.note{color:#aaa;font-size:13px}
+/* ABS BOUTIQUE - MENU BUTTONS */
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--gold);
+  font-size: 27px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* SIDE MENU */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -290px;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  background: #151519;
+  z-index: 1001;
+  padding: 25px 20px;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar h2 {
+  color: var(--gold);
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 14px 10px;
+  border-bottom: 1px solid #303036;
+}
+
+/* DARK BACKGROUND OVERLAY */
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 1000;
+}
+
+.menu-overlay.show {
+  display: block;
+}
+
+/* THREE DOTS DROPDOWN */
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 65px;
+  right: 12px;
+  background: #1b1b20;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  min-width: 190px;
+  z-index: 1002;
+  box-shadow: 0 8px 20px #0008;
+}
+
+.dropdown.show {
+  display: block;
+}
+
+.dropdown button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown button:hover,
+.sidebar a:hover {
+  background: #33332b;
+  color: var(--gold);
+}
 
 /* ABS Product Details */
 .photo { cursor: pointer; }
