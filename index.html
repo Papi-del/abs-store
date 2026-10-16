@@ -187,7 +187,19 @@ footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.n
 </style>
 </head>
 <body>
-<header><div class="logo">ABS</div><button class="cart-btn" onclick="document.querySelector('#cart').scrollIntoView()">🛒 Panier (<span id="count">0</span>)</button></header>
+<header>
+  <button class="menu-btn" id="openSidebar" aria-label="Ouvrir le menu">☰</button>
+
+  <div class="logo">ABS</div>
+
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="cart-btn" onclick="document.querySelector('#cart').scrollIntoView()">
+      🛒 <span id="count">0</span>
+    </button>
+
+    <button class="menu-btn" id="openDropdown" aria-label="Plus d'options">⋮</button>
+  </div>
+</header>
 <nav><a href="#home">Accueil</a><a href="#shop">Boutique</a><a href="#checkout">Commander</a><a href="#contact">Contact</a></nav>
 
 <main>
