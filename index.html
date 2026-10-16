@@ -671,6 +671,32 @@ dropdown.querySelectorAll("button").forEach(button => {
     dropdown.classList.remove("show");
   });
 });
+// ABS BOUTIQUE - DARK/LIGHT MODE
+
+const appearanceBtn = document.getElementById("appearanceOption");
+
+// Restore the customer's saved theme
+const savedTheme = localStorage.getItem("absTheme");
+
+if (savedTheme === "light") {
+  document.body.classList.add("light-mode");
+  appearanceBtn.textContent = "🌙 Mode sombre";
+} else {
+  appearanceBtn.textContent = "☀️ Mode clair";
+}
+
+// Switch themes when clicked
+appearanceBtn.addEventListener("click", function() {
+  document.body.classList.toggle("light-mode");
+
+  const isLight = document.body.classList.contains("light-mode");
+
+  localStorage.setItem("absTheme", isLight ? "light" : "dark");
+
+  appearanceBtn.textContent = isLight
+    ? "🌙 Mode sombre"
+    : "☀️ Mode clair";
+});
 
 });
 </script>
