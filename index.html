@@ -585,6 +585,28 @@ document.addEventListener("DOMContentLoaded", function () {
   sidebar.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", closeMenu);
   });
+// ABS BOUTIQUE - THREE-DOT MENU
+
+const dropdown = document.getElementById("optionsDropdown");
+const dropdownBtn = document.getElementById("openDropdown");
+
+dropdownBtn.addEventListener("click", function(event) {
+  event.stopPropagation();
+  dropdown.classList.toggle("show");
+});
+
+document.addEventListener("click", function(event) {
+  if (!dropdown.contains(event.target) &&
+      !dropdownBtn.contains(event.target)) {
+    dropdown.classList.remove("show");
+  }
+});
+
+dropdown.querySelectorAll("button").forEach(button => {
+  button.addEventListener("click", function() {
+    dropdown.classList.remove("show");
+  });
+});
 
 });
 </script>
