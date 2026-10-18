@@ -497,7 +497,7 @@ function showProduct(id){
   const p=products.find(item=>item.id===id);
   if(!p)return;
 
-  document.querySelector("#detailImage").src="images/"+p.image;
+  document.querySelector("#detailImage").src = getProductImage(p.image);
   document.querySelector("#detailImage").alt=p.name;
   document.querySelector("#detailCategory").textContent=p.cat;
   document.querySelector("#detailName").textContent=p.name;
