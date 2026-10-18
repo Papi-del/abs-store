@@ -51,7 +51,22 @@ button.danger{background:#9f3030;color:white}
         <input id="name" placeholder="Nom du produit" required>
         <input id="cat" placeholder="Catégorie : Parfums, Sacs, Chaussures..." required>
         <input id="price" type="number" min="0" placeholder="Prix en FCFA" required>
-        <input id="image" placeholder="Image (ex. rose-elegance.jpg)" required>
+        <label for="imageFile">📸 Photo du produit</label>
+
+<input
+  id="imageFile"
+  type="file"
+  accept="image/*"
+>
+
+<p class="small">
+  Choisissez une photo depuis votre téléphone.
+</p>
+
+<input
+  id="image"
+  type="hidden"
+>
         <input id="icon" placeholder="Icône (ex. ✦)">
         <textarea id="description" placeholder="Description du produit" required></textarea>
         <button id="saveButton" type="submit">Ajouter le produit</button>
