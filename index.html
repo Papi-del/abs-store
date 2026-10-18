@@ -482,7 +482,7 @@ function renderProducts(list=products){
   document.querySelector("#products").innerHTML=list.map(p=>`
     <div class="card">
       <div class="photo" onclick="showProduct(${p.id})">
-        <img src="images/${p.image}" alt="${p.name}">
+        <img src="${getProductImage(p.image)}" alt="${p.name}">
       </div>
       <div class="info">
         <div class="cat">${p.cat}</div>
