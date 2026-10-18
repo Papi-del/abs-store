@@ -513,7 +513,21 @@ function renderCart(){let box=document.querySelector("#cartItems");let count=car
 if(!cart.length){box.innerHTML='<p class="note">Votre panier est vide.</p>';document.querySelector("#total").textContent="0";return}
 box.innerHTML=cart.map(i=>{let p=products.find(x=>x.id===i.id);return `<div class="cart-row"><div><strong>${p.name}</strong><br>${money(p.price)} FCFA × ${i.qty}</div><div class="qty"><button onclick="change(${i.id},-1)">−</button>${i.qty}<button onclick="change(${i.id},1)">+</button></div></div>`}).join("");
 document.querySelector("#total").textContent=money(cart.reduce((s,i)=>s+products.find(p=>p.id===i.id).price*i.qty,0))}
-function filterProducts(cat,btn){document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderProducts(cat==="all"?products:products.filter(p=>p.cat===cat))}
+function filterProducts(cat, btn) {
+  document.querySelectorAll(".filters button").forEach(b =>
+    b.classList.remove("active")
+  );
+
+  btn.classList.add("active");
+
+  const filtered = cat === "all"
+    ? products
+    : products.filter(p =>
+        String(p.cat || "").trim().toLowerCase() === cat.toLowerCase()
+      );
+
+  renderProducts(filtered);
+}
 document.querySelector("#orderForm").addEventListener("submit",e=>{
 e.preventDefault();if(!cart.length){alert("Ajoutez au moins un produit au panier.");return}
 const f=new FormData(e.target);const total=cart.reduce((s,i)=>s+products.find(p=>p.id===i.id).price*i.qty,0);
