@@ -268,7 +268,26 @@ form.addEventListener("submit", async event => {
     return;
   }
 
-  const existing = productRows.find(p => p.docId === editingDocId);
+    const existing = productRows.find(p => p.docId === editingDocId);
+
+  const selectedFile = document.querySelector("#imageFile").files[0];
+  let imageValue = document.querySelector("#image").value.trim();
+
+  try {
+    if (selectedFile) {
+      message("📸 Envoi de la photo en cours...");
+      imageValue = await uploadProductImage(selectedFile);
+    } else if (existing) {
+      imageValue = existing.image || "";
+    } else {
+      message("Veuillez choisir une photo du produit.");
+      return;
+    }
+  } catch (error) {
+    message("Erreur photo : " + error.message);
+    return;
+  }
+
   const product = {
     id: existing ? Number(existing.id) : Math.max(0, ...productRows.map(p => Number(p.id) || 0)) + 1,
     name: document.querySelector("#name").value.trim(),
