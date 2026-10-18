@@ -424,6 +424,16 @@ let products=[
 ];
 let cart=[];
 const money=n=>n.toLocaleString("fr-FR");
+// ABS BOUTIQUE - SUPPORT LOCAL AND CLOUDINARY IMAGES
+
+function getProductImage(image) {
+  if (typeof image === "string" &&
+      image.startsWith("https://res.cloudinary.com/llyzxrbi/")) {
+    return image;
+  }
+
+  return "images/" + image;
+}
 async function loadProductsFromFirestore() {
   try {
     const snapshot = await getDocs(collection(db, "products"));
