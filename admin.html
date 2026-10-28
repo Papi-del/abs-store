@@ -268,6 +268,48 @@ details.textContent =
     message("Erreur Firestore : " + error.message);
   }
 }
+async function loadSellerApplications() {
+  const sellerBox = document.getElementById("sellerApplications");
+  const sellerCount = document.getElementById("sellerCount");
+
+  sellerBox.textContent = "Chargement...";
+  sellerCount.textContent = "";
+
+  try {
+    const snapshot = await getDocs(collection(db, "sellers"));
+
+    sellerCount.textContent =
+      snapshot.size + " candidature(s)";
+
+    sellerBox.replaceChildren();
+
+    if (snapshot.empty) {
+      sellerBox.textContent = "Aucune candidature pour le moment.";
+      return;
+    }
+
+    snapshot.forEach(sellerDoc => {
+      const seller = sellerDoc.data();
+      const item = document.createElement("div");
+      item.className = "product";
+
+      const name = document.createElement("strong");
+      name.textContent = seller.shopName || "Boutique sans nom";
+
+      const phone = document.createElement("p");
+      phone.textContent = "Téléphone : " + (seller.phone || "Non renseigné");
+
+      const status = document.createElement("p");
+      status.textContent = "Statut : " + (seller.status || "Inconnu");
+
+      item.append(name, phone, status);
+      sellerBox.append(item);
+    });
+  } catch (error) {
+    sellerCount.textContent = "Erreur de chargement.";
+    sellerBox.textContent = error.message;
+  }
+}
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
