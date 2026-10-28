@@ -303,14 +303,55 @@ async function loadSellerApplications() {
       const status = document.createElement("p");
       status.textContent = "Statut : " + (seller.status || "Inconnu");
 
-      item.append(name, phone, status);
-      sellerBox.append(item);
+      
+item.append(name, phone, status);
+
+if (seller.status === "pending") {
+  const approveBtn = document.createElement("button");
+  approveBtn.textContent = "Approuver";
+  approveBtn.onclick = () =>
+    updateSellerStatus(sellerDoc.id, "approved");
+
+  const rejectBtn = document.createElement("button");
+  rejectBtn.textContent = "Refuser";
+  rejectBtn.onclick = () =>
+    updateSellerStatus(sellerDoc.id, "rejected");
+
+  item.append(approveBtn, rejectBtn);
+}
+
+sellerBox.append(item);
+
     });
   } catch (error) {
     sellerCount.textContent = "Erreur de chargement.";
     sellerBox.textContent = error.message;
   }
 }
+
+async function updateSellerStatus(sellerId, newStatus) {
+  if (!auth.currentUser || auth.currentUser.uid !== ADMIN_UID) {
+    message("Accès refusé.");
+    return;
+  }
+
+  try {
+    await updateDoc(doc(db, "sellers", sellerId), {
+      status: newStatus
+    });
+
+    message(
+      newStatus === "approved"
+        ? "Vendeur approuvé."
+        : "Candidature refusée."
+    );
+
+    await loadSellerApplications();
+  } catch (error) {
+    message("Erreur : " + error.message);
+  }
+}
+
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
