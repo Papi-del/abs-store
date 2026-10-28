@@ -191,6 +191,7 @@ onAuthStateChanged(auth, async user => {
 
   showDashboard();
   await loadProducts();
+  await loadSellerApplications();
 });
 
 document.querySelector("#loginForm").addEventListener("submit", async event => {
