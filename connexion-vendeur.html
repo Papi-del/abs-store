@@ -205,9 +205,8 @@
 
         if (seller.status === "approved") {
           message.style.color = "#6ee7a0";
-          message.textContent =
-            "Bienvenue " + (seller.shopName || "vendeur") +
-            " ! Votre compte vendeur est approuvé.";
+          message.textContent = "Login successful! Opening your dashboard...";
+window.location.href = "seller-dashboard.html";
         } else {
           await signOut(auth);
 
