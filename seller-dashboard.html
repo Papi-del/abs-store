@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Seller Dashboard | ABS Niger</title>
+  <title>Tableau de bord vendeur | ABS Niger</title>
 
   <style>
     * { box-sizing: border-box; }
@@ -63,30 +63,30 @@
 
 <header>
   <h1>ABS Niger Marketplace</h1>
-  <p>Seller Dashboard</p>
-  <button id="logoutBtn" class="hidden">Log Out</button>
+  <p>Espace vendeur</p>
+  <button id="logoutBtn" class="hidden">Se déconnecter</button>
 </header>
 
 <div id="message" role="status">
-  Checking your seller account...
+  Vérification de votre compte vendeur...
 </div>
 
 <main id="dashboard" class="hidden">
   <div class="card">
-    <h2>Welcome to Your Shop</h2>
-    <p>Shop: <strong id="shopName">Loading...</strong></p>
-    <p>Account status: <strong>Approved</strong></p>
-    <p>Manage your shop from this dashboard.</p>
+    <h2>Bienvenue dans votre boutique</h2>
+    <p>Boutique : <strong id="shopName">Chargement...</strong></p>
+    <p>Statut du compte : <strong>Approuvé</strong></p>
+    <p>Gérez votre boutique depuis cet espace.</p>
   </div>
 
   <div class="card">
-    <h2>My Products</h2>
-    <p>Product management will be added in the next step.</p>
+    <h2>Mes produits</h2>
+    <p>La gestion des produits sera disponible à la prochaine étape.</p>
   </div>
 
   <div class="card">
-    <h2>My Orders</h2>
-    <p>Order management will be added in a later step.</p>
+    <h2>Mes commandes</h2>
+    <p>La gestion des commandes sera disponible prochainement.</p>
   </div>
 </main>
 
@@ -125,8 +125,8 @@
   const dashboard = document.getElementById("dashboard");
   const logoutBtn = document.getElementById("logoutBtn");
 
-  function showMessage(text) {
-    message.textContent = text;
+  function afficherMessage(texte) {
+    message.textContent = texte;
     message.classList.remove("hidden");
   }
 
@@ -135,11 +135,13 @@
     logoutBtn.classList.add("hidden");
 
     if (!user) {
-      showMessage("Please log in with your seller account first.");
+      afficherMessage(
+        "Veuillez vous connecter avec votre compte vendeur."
+      );
       return;
     }
 
-    showMessage("Checking seller approval...");
+    afficherMessage("Vérification de l'approbation de votre compte...");
 
     try {
       const sellerRef = doc(db, "sellers", user.uid);
@@ -147,7 +149,9 @@
 
       if (!sellerSnap.exists()) {
         await signOut(auth);
-        showMessage("No seller profile was found. Please contact ABS administration.");
+        afficherMessage(
+          "Aucun profil vendeur trouvé. Veuillez contacter l'administration ABS."
+        );
         return;
       }
 
@@ -158,12 +162,14 @@
         seller.status !== "approved"
       ) {
         await signOut(auth);
-        showMessage("Your seller account is not approved for dashboard access.");
+        afficherMessage(
+          "Votre compte vendeur n'est pas autorisé à accéder à ce tableau de bord."
+        );
         return;
       }
 
       document.getElementById("shopName").textContent =
-        seller.shopName || "My Shop";
+        seller.shopName || "Ma boutique";
 
       message.classList.add("hidden");
       dashboard.classList.remove("hidden");
@@ -171,8 +177,8 @@
 
     } catch (error) {
       console.error(error);
-      showMessage(
-        "We couldn't verify your account. Please try again or contact ABS administration."
+      afficherMessage(
+        "Impossible de vérifier votre compte. Veuillez réessayer ou contacter l'administration ABS."
       );
     }
   });
@@ -185,7 +191,9 @@
       window.location.href = "connexion-vendeur.html";
     } catch (error) {
       console.error(error);
-      showMessage("Logout failed. Please try again.");
+      afficherMessage(
+        "La déconnexion a échoué. Veuillez réessayer."
+      );
       logoutBtn.disabled = false;
     }
   });
