@@ -1087,3 +1087,73 @@ async function loadMonetizationSettings() {
   try {
 
     const settingsRef = doc(db, "settings", "monetization");
+    const settingsSnap = await getDoc(settingsRef);
+
+    if (settingsSnap.exists()) {
+      const settings = settingsSnap.data();
+
+      document.querySelector("#commissionEnabled").checked =
+        settings.commissionEnabled ?? false;
+
+      document.querySelector("#commissionRate").value =
+        settings.commissionRate ?? 0;
+
+      document.querySelector("#subscriptionsEnabled").checked =
+        settings.subscriptionsEnabled ?? false;
+
+      document.querySelector("#advertisingEnabled").checked =
+        settings.advertisingEnabled ?? false;
+
+      document.querySelector("#featuredListingsEnabled").checked =
+        settings.featuredListingsEnabled ?? false;
+    }
+    } catch (error) {
+      console.error(error);
+      message("Erreur lors du chargement des paramètres.");
+    }
+  }
+
+  document.querySelector("#saveMonetization")
+    .addEventListener("click", async () => {
+
+      const saveButton = document.querySelector("#saveMonetization");
+      saveButton.disabled = true;
+      saveButton.textContent = "Enregistrement...";
+
+      try {
+        const settings = {
+          commissionEnabled:
+            document.querySelector("#commissionEnabled").checked,
+
+          commissionRate:
+            Number(document.querySelector("#commissionRate").value),
+
+          subscriptionsEnabled:
+            document.querySelector("#subscriptionsEnabled").checked,
+
+          advertisingEnabled:
+            document.querySelector("#advertisingEnabled").checked,
+
+          featuredListingsEnabled:
+            document.querySelector("#featuredListingsEnabled").checked
+        };
+
+        await setDoc(
+          doc(db, "settings", "monetization"),
+          settings
+        );
+
+        message("Paramètres enregistrés avec succès.");
+
+      } catch (error) {
+        console.error(error);
+        message("Erreur lors de l'enregistrement.");
+
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = "Enregistrer les paramètres";
+      }
+    });
+</script>
+</body>
+</html>
