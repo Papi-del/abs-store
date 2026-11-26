@@ -1107,6 +1107,7 @@ async function loadMonetizationSettings() {
       document.querySelector("#featuredListingsEnabled").checked =
         settings.featuredListingsEnabled ?? false;
     }
+    settingsStatus.textContent = "Paramètres chargés.";
     } catch (error) {
       console.error(error);
       message("Erreur lors du chargement des paramètres.");
