@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta name="abs-app" content="ABS">
+<meta name="abs-default-language" content="auto">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<title>ABS Boutique | Mode, parfums, sacs et chaussures au Niger</title>
+<style>
+:root{--black:#0b0b0d;--gold:#d4af37;--white:#fff;--muted:#b9b9bf;--card:#151519}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--black);color:var(--white)}
+header{position:sticky;top:0;z-index:10;background:#0b0b0dec;border-bottom:1px solid #29292e;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:28px;font-weight:900;color:var(--gold);letter-spacing:3px}.cart-btn{background:var(--gold);border:0;padding:10px 14px;border-radius:8px;font-weight:700}
+nav{display:flex;gap:15px;flex-wrap:wrap;padding:12px 18px;justify-content:center}nav a{color:white;text-decoration:none}
+.hero{text-align:center;padding:55px 20px;background:linear-gradient(135deg,#111116,#080808)}
+.hero h1{font-size:42px;margin:0 0 10px;color:var(--gold)}.hero p{color:#ddd}
+section{max-width:1100px;margin:auto;padding:35px 18px}h2{color:var(--gold)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.filters button{background:#202025;color:#fff;border:1px solid #3a3a40;padding:9px 13px;border-radius:20px}.filters button.active{background:var(--gold);color:#111}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.card{background:var(--card);border:1px solid #2b2b31;border-radius:14px;overflow:hidden}.photo{height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}.photo img{width:100%;height:100%;object-fit:contain}.info{padding:15px}.cat{color:var(--muted);font-size:13px}.price{color:var(--gold);font-weight:800;font-size:19px;margin:8px 0}.add{width:100%;padding:11px;border:0;border-radius:8px;background:var(--gold);font-weight:800}
+#cart{background:#101014}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #29292e;padding:12px 0}.qty button{padding:3px 8px;margin:0 2px}.total{font-size:22px;color:var(--gold);font-weight:800;margin-top:18px}
+form{display:grid;gap:12px;background:var(--card);padding:18px;border-radius:14px}input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #3b3b42;background:#0c0c0f;color:#fff}label{font-size:14px;color:#ddd}.submit{padding:14px;background:#25d366;color:#061006;border:0;border-radius:9px;font-weight:900;font-size:16px}
+footer{text-align:center;padding:30px;color:#999;border-top:1px solid #29292e}.note{color:#aaa;font-size:13px}
+.menu-btn{background:transparent;border:none;color:var(--gold);font-size:27px;cursor:pointer;padding:8px}
+.sidebar{position:fixed;top:0;left:-290px;width:280px;max-width:85vw;height:100vh;background:#151519;z-index:1001;padding:25px 20px;transition:left .3s ease;overflow-y:auto}.sidebar.open{left:0}.sidebar h2{color:var(--gold)}.sidebar a{display:block;color:white;text-decoration:none;padding:14px 10px;border-bottom:1px solid #303036}
+.menu-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000}.menu-overlay.show{display:block}
+.dropdown{display:none;position:absolute;top:65px;right:12px;background:#1b1b20;border:1px solid var(--gold);border-radius:10px;min-width:190px;z-index:1002;box-shadow:0 8px 20px #0008}.dropdown.show{display:block}.dropdown button{display:block;width:100%;padding:13px;background:transparent;border:none;color:white;text-align:left;cursor:pointer}.dropdown button:hover,.sidebar a:hover{background:#33332b;color:var(--gold)}
+.product-modal{display:none;position:fixed;inset:0;z-index:1000;background:#0b0b0d;padding:0;align-items:stretch;justify-content:stretch;overflow-y:auto;width:100%;height:100%}.product-modal.open{display:flex}.product-modal-content{background:#151519;border:0;border-radius:0;padding:20px;width:100%;max-width:none;height:100%;min-height:100%;margin:0;box-sizing:border-box;overflow-y:auto}.product-modal-content img{width:100%;height:45vh;max-height:450px;object-fit:contain;display:block;margin:0 auto 20px}.product-modal-content h3{color:#d4af37}
+body.light-mode .product-modal-content{background:#fff;color:#222}.detail-price{font-size:20px;font-weight:bold;margin:12px 0;color:#d4af37}body.light-mode .detail-price{color:#9a7410}.detail-close,.detail-add{border:0;border-radius:8px;padding:12px;font-weight:bold}.detail-close{background:#29292e;color:white;margin-bottom:12px}.detail-add{background:#d4af37;width:100%;margin-top:12px}
+body.light-mode{--black:#f8f8f8;--white:#151515;--muted:#555;--card:#fff;background:var(--black);color:var(--white)}body.light-mode header{background:#fff;border-bottom:1px solid #ddd}body.light-mode nav a{color:#151515}body.light-mode .hero{background:linear-gradient(135deg,#fff,#eee)}body.light-mode .hero p{color:#444}body.light-mode .sidebar,body.light-mode .dropdown{background:#fff;color:#151515}body.light-mode .sidebar a,body.light-mode .dropdown button{color:#151515}body.light-mode .filters button{background:#eee;color:#151515}body.light-mode .filters button.active{background:var(--gold)}body.light-mode #cart{background:#eee}body.light-mode form,body.light-mode input,body.light-mode select,body.light-mode textarea{background:#fff;color:#151515}body.light-mode .card{border-color:#ddd}body.light-mode .photo{background:#fff}body.light-mode .product-modal-content{background:#fff;color:#151515}body.light-mode .product-modal-content h3{color:#9a7410}body.light-mode .detail-close{background:#eee;color:#151515}
+.image-fallback{color:#aaa;font-size:13px;text-align:center;padding:12px}
+</style>
+</head>
+<body>
+<header>
+  <button class="menu-btn" id="openSidebar" aria-label="Ouvrir le menu">☰</button>
+  <div class="logo">ABS</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="cart-btn" onclick="document.querySelector('#cart').scrollIntoView({behavior:'smooth'})">🛒 <span id="count">0</span></button>
+    <button class="menu-btn" id="openDropdown" aria-label="Plus d'options">⋮</button>
+  </div>
+</header>
+<div class="dropdown" id="optionsDropdown">
+  <button type="button" id="languageOption">🌍 Langue</button>
+  <button type="button" id="appearanceOption">🌙 Apparence</button>
+  <button type="button" id="shareOption">📤 Partager ABS</button>
+  <button type="button" id="helpOption">❓ Aide</button>
+  <button type="button" id="aboutOption">ℹ️ À propos</button>
+  <button type="button" id="privacyOption">🔒 Confidentialité</button>
+</div>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="sidebar" id="sidebar" aria-label="Menu principal">
+  <button class="menu-btn" id="closeSidebar" aria-label="Fermer le menu">✕</button>
+  <h2>🛍️ ABS Boutique</h2><p class="note">Bienvenue chez ABS 🇳🇪</p>
+  <h3>🏠 ACCUEIL</h3><a href="#home">🏠 Accueil</a><a href="#shop">🛍️ Tous les produits</a>
+  <h3>🛒 MES ACHATS</h3><a href="#cart">🛒 Mon panier</a><a href="#checkout">📦 Passer commande</a>
+  <h3>🗂️ CATÉGORIES</h3><a href="#shop">🌸 Parfums</a><a href="#shop">👜 Sacs à main</a><a href="#shop">👠 Chaussures</a>
+  <h3>📞 AIDE ET INFORMATIONS</h3><a href="#contact">💬 Service client</a><a href="#contact">📞 Contactez-nous</a>
+  <h3>🏪 ESPACE VENDEUR</h3><a href="vendeur.html">🏪 Devenir vendeur</a><a href="connexion-vendeur.html">🔐 Connexion vendeur</a>
+</aside>
+<nav><a href="#home">Accueil</a><a href="#shop">Boutique</a><a href="#checkout">Commander</a><a href="#contact">Contact</a></nav>
+<main>
+<section class="hero" id="home"><h1>ABS</h1><p>La boutique pensée pour le Niger.</p><p>Parfums • Sacs • Chaussures</p></section>
+<section id="shop"><h2>Nos produits</h2>
+  <div class="filters">
+    <button class="active" onclick="filterProducts('all',this)">Tous</button><button onclick="filterProducts('Parfums',this)">Parfums</button><button onclick="filterProducts('Sacs',this)">Sacs</button><button onclick="filterProducts('Chaussures',this)">Chaussures</button><button onclick="filterProducts('Soins de beauté',this)">Soins de beauté</button>
+  </div>
+  <div class="grid" id="products"></div>
+</section>
+<div class="product-modal" id="productModal" role="dialog" aria-modal="true">
+  <div class="product-modal-content"><button type="button" class="detail-close" onclick="closeProduct()">Fermer ✕</button><img id="detailImage" src="" alt=""><div class="cat" id="detailCategory"></div><h3 id="detailName"></h3><p id="detailDescription"></p><div class="detail-price" id="detailPrice"></div><button type="button" class="detail-add" id="detailAdd">Ajouter au panier</button></div>
+</div>
+<section id="cart"><h2>Votre panier</h2><div id="cartItems"><p class="note">Votre panier est vide.</p></div><div class="total">Total : <span id="total">0</span> FCFA</div></section>
+<section id="checkout"><h2>Passer la commande</h2>
+<form id="orderForm">
+<label>Nom complet<input name="name" required placeholder="Votre nom"></label>
+<label>Téléphone<input name="phone" required placeholder="70 XX XX XX"></label>
+<label>Ville<select name="city" required><option value="">Choisir</option><option>Niamey</option><option>Maradi</option><option>Zinder</option><option>Agadez</option><option>Tahoua</option><option>Dosso</option><option>Diffa</option><option>Tillabéri</option><option>Autre ville</option></select></label>
+<label>Quartier / adresse<textarea name="address" required placeholder="Quartier, rue ou repère"></textarea></label>
+<label>Paiement<select name="payment" required><option value="">Choisir</option><option>Paiement à la livraison</option><option>Paiement mobile</option><option>Autre</option></select></label>
+<label>Livraison<select name="delivery" required><option value="">Choisir</option><option>Livraison à domicile</option><option>Retrait convenu avec ABS</option></select></label>
+<p class="note">Images de présentation provisoires. Les photos des produits réels seront remplacées après approvisionnement. Frais Niamey : 1 000 FCFA (tarif provisoire).</p>
+<div style="background:#101014;border:1px solid #2b2b31;border-radius:10px;padding:14px;margin:4px 0 8px"><strong>Résumé de livraison</strong><p style="margin:8px 0">Niamey : <strong>1 000 FCFA</strong></p><p class="note" style="margin:0">Autres villes : frais confirmés selon la destination.</p></div>
+<button class="submit" type="submit">📲 Confirmer la commande sur WhatsApp</button>
+</form></section>
+<section id="contact"><h2>Contact</h2><p>WhatsApp : <strong>+227 70 16 22 58</strong></p><p class="note">ABS • Niger</p></section>
+</main>
+<footer>© 2026 ABS. Tous droits réservés.</footer>
+<script src="abs-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAAPTXI1XgocRJtN3FDMUTMwBgiUzG8ymk",
+  authDomain: "abs-boutique.firebaseapp.com",
+  projectId: "abs-boutique",
+  storageBucket: "abs-boutique.firebasestorage.app",
+  messagingSenderId: "935883852934",
+  appId: "1:935883852934:web:7b410699768c024860d507"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+let products = [
+{id:1,name:"Rose Élégance",cat:"Parfums",price:8500,icon:"✦",image:"rose-elegance.jpg",description:"Un parfum élégant aux notes délicates pour accompagner vos plus beaux moments."},
+{id:2,name:"Oud Royal",cat:"Parfums",price:12000,icon:"✦",image:"oud-royal.jpg",description:"Un parfum au caractère intense et raffiné pour une signature élégante."},
+{id:3,name:"Musk Blanc",cat:"Parfums",price:7500,icon:"✦",image:"musk-blanc.jpg",description:"Un parfum délicat et doux pour accompagner vos journées."},
+{id:4,name:"Vanilla Gold",cat:"Parfums",price:9500,icon:"✦",image:"vanilla-gold.jpg",description:"Une fragrance chaleureuse aux notes gourmandes et élégantes."},
+{id:5,name:"Classic Noir",cat:"Sacs",price:12500,icon:"◆",image:"classic-noir.jpg",description:"Un sac intemporel qui complète facilement vos tenues."},
+{id:6,name:"Élégance Beige",cat:"Sacs",price:15000,icon:"◆",image:"elegance-beige.jpg",description:"Un sac élégant dans une teinte beige facile à associer."},
+{id:7,name:"Mini Chic",cat:"Sacs",price:9500,icon:"◆",image:"mini-chic.jpg",description:"Un petit sac chic pour emporter vos essentiels."},
+{id:8,name:"Lady Luxe",cat:"Sacs",price:18000,icon:"◆",image:"lady-luxe.jpg",description:"Un sac raffiné pour apporter une touche de sophistication."},
+{id:9,name:"Sandales Élégance",cat:"Chaussures",price:8500,icon:"◇",image:"sandales-elegance.jpg",description:"Des sandales élégantes pour compléter vos tenues."},
+{id:10,name:"Mocassins Chic",cat:"Chaussures",price:12500,icon:"◇",image:"mocassins-chic.jpg",description:"Des mocassins au style classique pour vos sorties."},
+{id:11,name:"Flats Classiques",cat:"Chaussures",price:7500,icon:"◇",image:"flats-classiques.jpg",description:"Des chaussures plates pour un style simple et polyvalent."},
+{id:12,name:"Sandales Luxe",cat:"Chaussures",price:10000,icon:"◇",image:"sandales-luxe.jpg",description:"Des sandales raffinées pour une allure soignée."}
+];
+let cart = [];
+const money = n => Number(n || 0).toLocaleString("fr-FR");
+
+// Supports GitHub image filenames, paths already beginning with images/, and full image URLs.
+function getProductImage(image) {
+  if (typeof image !== "string" || !image.trim()) return "";
+  const value = image.trim();
+  if (/^(https?:)?\/\//i.test(value) || /^(data:|blob:)/i.test(value)) return value;
+  if (value.startsWith("/")) return value;
+  if (/^images\//i.test(value)) return value;
+  return "images/" + value.replace(/^\.\//, "");
+}
+
+function attachImageFallback(img, productName) {
+  img.addEventListener("error", function onImageError() {
+    img.removeEventListener("error", onImageError);
+    const fallback = document.createElement("div");
+    fallback.className = "image-fallback";
+    fallback.textContent = "Image indisponible : " + productName;
+    img.replaceWith(fallback);
+    console.error("Product image could not be loaded:", img.src);
+  });
+}
+
+async function loadProductsFromFirestore() {
+  try {
+    const snapshot = await getDocs(collection(db, "products"));
+    if (snapshot.empty) {
+      console.log("No products found in Firestore. Keeping local products.");
+      renderProducts();
+      return;
+    }
+    const loadedProducts = snapshot.docs.map(doc => {
+      const p = doc.data();
+      return {
+        id: Number(p.id),
+        name: p.name,
+        cat: p.cat || p.category,
+        price: Number(p.price),
+        icon: p.icon || "",
+        image: p.image,
+        description: p.description || ""
+      };
+    });
+    if (loadedProducts.some(p => !Number.isFinite(p.id) || !p.name || !p.cat || !Number.isFinite(p.price) || !p.image)) {
+      console.error("Some Firestore products have missing fields. Keeping local products.");
+      renderProducts();
+      return;
+    }
+    products = loadedProducts.sort((a, b) => a.id - b.id);
+    renderProducts();
+    console.log("Products loaded from Firestore:", products.length);
+  } catch (error) {
+    console.error("Firestore loading error:", error);
+    renderProducts();
+  }
+}
+
+function renderProducts(list = products) {
+  const container = document.querySelector("#products");
+  container.innerHTML = list.map(p => `
+    <div class="card">
+      <div class="photo" onclick="showProduct(${Number(p.id)})">
+        <img src="${getProductImage(p.image)}" alt="${String(p.name).replace(/"/g, "&quot;")}" loading="lazy">
+      </div>
+      <div class="info">
+        <div class="cat">${p.cat}</div>
+        <h3>${p.name}</h3>
+        <div class="price">${money(p.price)} FCFA</div>
+        <button class="add" onclick="add(${Number(p.id)})">Ajouter au panier</button>
+      </div>
+    </div>`).join("");
+  container.querySelectorAll("img").forEach(img => attachImageFallback(img, img.alt));
+}
+
+function showProduct(id) {
+  const p = products.find(item => item.id === Number(id));
+  if (!p) return;
+  const detailImage = document.querySelector("#detailImage");
+  detailImage.src = getProductImage(p.image);
+  detailImage.alt = p.name;
+  detailImage.onerror = () => {
+    detailImage.onerror = null;
+    detailImage.removeAttribute("src");
+    detailImage.alt = "Image indisponible : " + p.name;
+  };
+  document.querySelector("#detailCategory").textContent = p.cat;
+  document.querySelector("#detailName").textContent = p.name;
+  document.querySelector("#detailPrice").textContent = money(p.price) + " FCFA";
+  document.querySelector("#detailDescription").textContent = p.description || "Découvrez ce produit de notre collection ABS.";
+  document.querySelector("#detailAdd").onclick = function () { add(p.id); closeProduct(); };
+  document.querySelector("#productModal").classList.add("open");
+}
+function closeProduct() { document.querySelector("#productModal").classList.remove("open"); }
+function add(id) { const x = cart.find(i => i.id === Number(id)); x ? x.qty++ : cart.push({id:Number(id),qty:1}); renderCart(); }
+function change(id,d) { const x = cart.find(i => i.id === Number(id)); if (!x) return; x.qty += d; if (x.qty <= 0) cart = cart.filter(i => i.id !== Number(id)); renderCart(); }
+function renderCart() {
+  const box = document.querySelector("#cartItems");
+  const count = cart.reduce((a,b) => a + b.qty, 0);
+  document.querySelector("#count").textContent = count;
+  if (!cart.length) { box.innerHTML = '<p class="note">Votre panier est vide.</p>'; document.querySelector("#total").textContent = "0"; return; }
+  box.innerHTML = cart.map(i => {
+    const p = products.find(x => x.id === i.id);
+    if (!p) return "";
+    return `<div class="cart-row"><div><strong>${p.name}</strong><br>${money(p.price)} FCFA × ${i.qty}</div><div class="qty"><button onclick="change(${i.id},-1)">−</button>${i.qty}<button onclick="change(${i.id},1)">+</button></div></div>`;
+  }).join("");
+  document.querySelector("#total").textContent = money(cart.reduce((s,i) => { const p = products.find(x => x.id === i.id); return s + (p ? p.price * i.qty : 0); }, 0));
+}
+function filterProducts(cat, btn) {
+  document.querySelectorAll(".filters button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  const filtered = cat === "all" ? products : products.filter(p => String(p.cat || "").trim().toLowerCase() === cat.toLowerCase());
+  renderProducts(filtered);
+}
+
+document.querySelector("#orderForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!cart.length) { alert("Ajoutez au moins un produit au panier."); return; }
+  const f = new FormData(e.target);
+  const total = cart.reduce((s,i) => { const p = products.find(x => x.id === i.id); return s + (p ? p.price * i.qty : 0); }, 0);
+  const city = f.get("city");
+  const deliveryFee = city === "Niamey" ? 1000 : 0;
+  const deliveryText = city === "Niamey" ? "1 000 FCFA" : "À confirmer selon la destination";
+  const grandTotal = total + deliveryFee;
+  const lines = cart.map(i => { const p = products.find(x => x.id === i.id); return p ? `- ${p.name} x${i.qty} = ${money(p.price * i.qty)} FCFA` : ""; }).filter(Boolean).join("\n");
+  const msg = `Bonjour ABS,\nJe souhaite passer une commande.\n\nNom : ${f.get("name")}\nTéléphone : ${f.get("phone")}\nVille : ${city}\nAdresse : ${f.get("address")}\nPaiement : ${f.get("payment")}\nLivraison : ${f.get("delivery")}\n\nProduits :\n${lines}\n\nSous-total produits : ${money(total)} FCFA\nFrais de livraison : ${deliveryText}\nTotal à payer : ${money(grandTotal)} FCFA${city !== "Niamey" ? " (hors frais de livraison)" : ""}\n\nMerci de confirmer ma commande.`;
+  window.open("https://wa.me/22770162258?text=" + encodeURIComponent(msg), "_blank");
+});
+
+renderProducts();
+renderCart();
+loadProductsFromFirestore();
+window.showProduct = showProduct;
+window.closeProduct = closeProduct;
+window.a
