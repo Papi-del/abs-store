@@ -431,3 +431,272 @@ async function loadProductsFromFirestore() {
       console.error("Some Firestore products have missing fields.");  
   
       return;
+}  
+
+products = loadedProducts.sort((a, b) => a.id - b.id);  
+renderProducts();  
+console.log("Products loaded from Firestore:", products.length);
+
+} catch (error) {
+console.error("Firestore loading error:", error);
+
+}
+}
+
+function renderProducts(list=products){
+document.querySelector("#products").innerHTML=list.map(p=>   <div class="card">   <div class="photo" onclick="showProduct(${p.id})">   <img src="${getProductImage(p.image)}" alt="${p.name}">   </div>   <div class="info">   <div class="cat">${p.cat}</div>   <h3>${p.name}</h3>   <div class="price">${money(p.price)} FCFA</div>   <button class="add" onclick="add(${p.id})">Ajouter au panier</button>   </div>   </div>).join("");
+}
+
+function showProduct(id){
+const p=products.find(item=>item.id===id);
+if(!p)return;
+
+document.querySelector("#detailImage").src = getProductImage(p.image);
+document.querySelector("#detailImage").alt=p.name;
+document.querySelector("#detailCategory").textContent=p.cat;
+document.querySelector("#detailName").textContent=p.name;
+document.querySelector("#detailPrice").textContent=money(p.price)+" FCFA";
+document.querySelector("#detailDescription").textContent=
+p.description || "Découvrez ce produit de notre collection ABS.";
+
+document.querySelector("#detailAdd").onclick=function(){
+add(p.id);
+closeProduct();
+};
+
+document.querySelector("#productModal").classList.add("open");
+}
+
+function closeProduct(){
+document.querySelector("#productModal").classList.remove("open");
+}
+
+function add(id){let x=cart.find(i=>i.id===id);x?x.qty++:cart.push({id,qty:1});renderCart()}
+function change(id,d){let x=cart.find(i=>i.id===id);if(!x)return;x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.id!==id);renderCart()}
+function renderCart(){let box=document.querySelector("#cartItems");let count=cart.reduce((a,b)=>a+b.qty,0);document.querySelector("#count").textContent=count;
+if(!cart.length){box.innerHTML='<p class="note">Votre panier est vide.</p>';document.querySelector("#total").textContent="0";return}
+box.innerHTML=cart.map(i=>{let p=products.find(x=>x.id===i.id);return <div class="cart-row"><div><strong>${p.name}</strong><br>${money(p.price)} FCFA × ${i.qty}</div><div class="qty"><button onclick="change(${i.id},-1)">−</button>${i.qty}<button onclick="change(${i.id},1)">+</button></div></div>}).join("");
+document.querySelector("#total").textContent=money(cart.reduce((s,i)=>s+products.find(p=>p.id===i.id).price*i.qty,0))}
+function filterProducts(cat, btn) {
+document.querySelectorAll(".filters button").forEach(b =>
+b.classList.remove("active")
+);
+
+btn.classList.add("active");
+
+const filtered = cat === "all"
+? products
+: products.filter(p =>
+String(p.cat || "").trim().toLowerCase() === cat.toLowerCase()
+);
+
+renderProducts(filtered);
+}
+document.querySelector("#orderForm").addEventListener("submit",e=>{
+e.preventDefault();if(!cart.length){alert("Ajoutez au moins un produit au panier.");return}
+const f=new FormData(e.target);const total=cart.reduce((s,i)=>s+products.find(p=>p.id===i.id).price*i.qty,0);
+const city=f.get("city");const deliveryFee=city==="Niamey"?1000:0;
+const deliveryText=city==="Niamey"?"1 000 FCFA":"À confirmer selon la destination";
+const grandTotal=total+deliveryFee;
+const lines=cart.map(i=>{let p=products.find(x=>x.id===i.id);return - ${p.name} x${i.qty} = ${money(p.price*i.qty)} FCFA}).join("%0A");
+const msg=Bonjour ABS,%0AJe souhaite passer une commande.%0A%0ANom : ${encodeURIComponent(f.get("name"))}%0ATéléphone : ${encodeURIComponent(f.get("phone"))}%0AVille : ${encodeURIComponent(city)}%0AAdresse : ${encodeURIComponent(f.get("address"))}%0APaiement : ${encodeURIComponent(f.get("payment"))}%0ALivraison : ${encodeURIComponent(f.get("delivery"))}%0A%0AProduits :%0A${lines}%0A%0ASous-total produits : ${money(total)} FCFA%0AFrais de livraison : ${encodeURIComponent(deliveryText)}%0ATotal à payer : ${money(grandTotal)} FCFA${city!=="Niamey"?" (hors frais de livraison)":" "}%0A%0AMerci de confirmer ma commande.;
+window.open("https://wa.me/22770162258?text="+msg,"_blank");
+});
+renderProducts();renderCart();
+loadProductsFromFirestore();
+
+window.showProduct = showProduct;
+window.closeProduct = closeProduct;
+window.add = add;
+window.change = change;
+window.filterProducts = filterProducts;
+
+</script>  
+<section id="account" style="padding:25px; text-align:center;">  
+  <h2>Mon compte ABS</h2>  
+  <p>Créez votre compte ou connectez-vous.</p>  <input
+id="accountEmail"
+type="email"
+placeholder="Votre adresse e-mail"
+autocomplete="email"
+required
+
+> 
+
+<br><br>
+
+<input
+id="accountPassword"
+type="password"
+placeholder="Mot de passe"
+autocomplete="current-password"
+required
+
+> 
+
+<br><br>
+
+  <button type="button" id="createAccountBtn">  
+    Créer mon compte  
+  </button>    <button type="button" id="loginBtn">  
+    Se connecter  
+  </button>    <button type="button" id="logoutBtn" hidden>  
+    Se déconnecter  
+  </button>    <p id="accountMessage" role="status"></p>  
+</section>  
+<script type="module">  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";  
+import {  
+  getFirestore,  
+  collection,  
+  getDocs  
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";  
+import {  
+  getAuth,  
+  createUserWithEmailAndPassword,  
+  signInWithEmailAndPassword,  
+  signOut,  
+  onAuthStateChanged  
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";  const firebaseConfig = {
+apiKey: "AIzaSyAAPTXI1XgocRJtN3FDMUTMwBgiUzG8ymk",
+authDomain: "abs-boutique.firebaseapp.com",
+projectId: "abs-boutique",
+storageBucket: "abs-boutique.firebasestorage.app",
+messagingSenderId: "935883852934",
+appId: "1:935883852934:web:7b410699768c024860d507"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const email = document.getElementById("accountEmail");
+const password = document.getElementById("accountPassword");
+const message = document.getElementById("accountMessage");
+const createBtn = document.getElementById("createAccountBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+createBtn.addEventListener("click", async () => {
+try {
+await createUserWithEmailAndPassword(auth, email.value.trim(), password.value);
+message.textContent = "Compte créé avec succès !";
+} catch (error) {
+message.textContent = "Erreur : " + error.message;
+}
+});
+
+loginBtn.addEventListener("click", async () => {
+try {
+await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
+message.textContent = "Connexion réussie !";
+} catch (error) {
+message.textContent = "Erreur : " + error.message;
+}
+});
+
+logoutBtn.addEventListener("click", async () => {
+try {
+await signOut(auth);
+message.textContent = "Vous êtes déconnecté.";
+} catch (error) {
+message.textContent = "Erreur : " + error.message;
+}
+});
+
+onAuthStateChanged(auth, user => {
+createBtn.hidden = !!user;
+loginBtn.hidden = !!user;
+logoutBtn.hidden = !user;
+
+if (user) {
+message.textContent = "Connecté : " + user.email;
+}
+});
+</script>
+
+<script>  
+if ("serviceWorker" in navigator) {  
+  window.addEventListener("load", () => {  
+    navigator.serviceWorker.register("./service-worker.js")  
+      .catch(error => console.error("Service worker error:", error));  
+  });  
+}  
+</script>  <!-- ABS BOUTIQUE SIDEBAR CONTROLS -->  <script>  
+document.addEventListener("DOMContentLoaded", function () {  
+  
+  const sidebar = document.getElementById("sidebar");  
+  const overlay = document.getElementById("menuOverlay");  
+  const openBtn = document.getElementById("openSidebar");  
+  const closeBtn = document.getElementById("closeSidebar");  
+  
+  function openMenu() {  
+    sidebar.classList.add("open");  
+    overlay.classList.add("show");  
+  }  
+  
+  function closeMenu() {  
+    sidebar.classList.remove("open");  
+    overlay.classList.remove("show");  
+  }  
+  
+  openBtn.addEventListener("click", openMenu);  
+  closeBtn.addEventListener("click", closeMenu);  
+  overlay.addEventListener("click", closeMenu);  
+  
+  sidebar.querySelectorAll("a").forEach(link => {  
+    link.addEventListener("click", closeMenu);  
+  });  
+// ABS BOUTIQUE - THREE-DOT MENU  
+  
+const dropdown = document.getElementById("optionsDropdown");  
+const dropdownBtn = document.getElementById("openDropdown");  
+  
+dropdownBtn.addEventListener("click", function(event) {  
+  event.stopPropagation();  
+  dropdown.classList.toggle("show");  
+});  
+  
+document.addEventListener("click", function(event) {  
+  if (!dropdown.contains(event.target) &&  
+      !dropdownBtn.contains(event.target)) {  
+    dropdown.classList.remove("show");  
+  }  
+});  
+  
+dropdown.querySelectorAll("button").forEach(button => {  
+  button.addEventListener("click", function() {  
+    dropdown.classList.remove("show");  
+  });  
+});  
+// ABS BOUTIQUE - DARK/LIGHT MODE  
+  
+const appearanceBtn = document.getElementById("appearanceOption");  
+  
+// Restore the customer's saved theme  
+const savedTheme = localStorage.getItem("absTheme");  
+  
+if (savedTheme === "light") {  
+  document.body.classList.add("light-mode");  
+  appearanceBtn.textContent = "🌙 Mode sombre";  
+} else {  
+  appearanceBtn.textContent = "☀️ Mode clair";  
+}  
+  
+// Switch themes when clicked  
+appearanceBtn.addEventListener("click", function() {  
+  document.body.classList.toggle("light-mode");  
+  
+  const isLight = document.body.classList.contains("light-mode");  
+  
+  localStorage.setItem("absTheme", isLight ? "light" : "dark");  
+  
+  appearanceBtn.textContent = isLight  
+    ? "🌙 Mode sombre"  
+    : "☀️ Mode clair";  
+});  
+  
+});  
+</script>  
+</body>  
+</html>
