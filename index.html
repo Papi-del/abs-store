@@ -514,4 +514,26 @@ $("shareOption").addEventListener("click",async()=>{try{if(navigator.share)await
 $("helpOption").addEventListener("click",()=>$("contact").scrollIntoView({behavior:"smooth"}));
 $("aboutOption").addEventListener("click",()=>alert("ABS Marketplace : une marketplace africaine avec des espaces de marché par pays."));
 $("privacyOption").addEventListener("click",()=>alert("Vos commandes sont associées à votre compte ABS. Consultez la politique de confidentialité officielle pour les détails du traitement des données."));
-$("languageOption").addEventListener("click",()=>alert("La langue sera gérée dans les param
+$("languageOption").addEventListener("click",()=>alert("La langue sera gérée dans les paramètres linguistiques ABS."));
+
+document.querySelectorAll(".dropdown button").forEach(b =>
+  b.addEventListener("click", () =>
+    dropdown.classList.remove("show")
+  )
+);
+
+fillCountrySelects();
+renderProducts();
+renderCart();
+loadProductsFromFirestore();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => console.error("Service worker:", error));
+  });
+}
+
+</script>
+</body>
+</html>
