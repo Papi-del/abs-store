@@ -250,4 +250,99 @@ renderCart();
 loadProductsFromFirestore();
 window.showProduct = showProduct;
 window.closeProduct = closeProduct;
-window.a
+window.add = add;
+window.change = change;
+window.filterProducts = filterProducts;
+</script>
+<section id="account" style="padding:25px;text-align:center;">
+  <h2>Mon compte ABS</h2><p>Créez votre compte ou connectez-vous.</p>
+  <input id="accountEmail" type="email" placeholder="Votre adresse e-mail" autocomplete="email" required><br><br>
+  <input id="accountPassword" type="password" placeholder="Mot de passe" autocomplete="current-password" required><br><br>
+  <button type="button" id="createAccountBtn">Créer mon compte</button>
+  <button type="button" id="loginBtn">Se connecter</button>
+  <button type="button" id="logoutBtn" hidden>Se déconnecter</button>
+  <p id="accountMessage" role="status"></p>
+</section>
+<script type="module">
+import { getApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+// Reuse the Firebase app created above. Do not initialize the default app twice.
+const app = getApp();
+const auth = getAuth(app);
+const email = document.getElementById("accountEmail");
+const password = document.getElementById("accountPassword");
+const message = document.getElementById("accountMessage");
+const createBtn = document.getElementById("createAccountBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+createBtn.addEventListener("click", async () => {
+  try { await createUserWithEmailAndPassword(auth, email.value.trim(), password.value); message.textContent = "Compte créé avec succès !"; }
+  catch (error) { message.textContent = "Erreur : " + error.message; }
+});
+loginBtn.addEventListener("click", async () => {
+  try { await signInWithEmailAndPassword(auth, email.value.trim(), password.value); message.textContent = "Connexion réussie !"; }
+  catch (error) { message.textContent = "Erreur : " + error.message; }
+});
+logoutBtn.addEventListener("click", async () => {
+  try { await signOut(auth); message.textContent = "Vous êtes déconnecté."; }
+  catch (error) { message.textContent = "Erreur : " + error.message; }
+});
+onAuthStateChanged(auth, user => {
+  createBtn.hidden = !!user;
+  loginBtn.hidden = !!user;
+  logoutBtn.hidden = !user;
+  if (user) message.textContent = "Connecté : " + user.email;
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(error => console.error("Service worker error:", error));
+  });
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("menuOverlay");
+  const openBtn = document.getElementById("openSidebar");
+  const closeBtn = document.getElementById("closeSidebar");
+  function openMenu() { sidebar.classList.add("open"); overlay.classList.add("show"); }
+  function closeMenu() { sidebar.classList.remove("open"); overlay.classList.remove("show"); }
+  openBtn.addEventListener("click", openMenu);
+  closeBtn.addEventListener("click", closeMenu);
+  overlay.addEventListener("click", closeMenu);
+  sidebar.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+
+  const dropdown = document.getElementById("optionsDropdown");
+  const dropdownBtn = document.getElementById("openDropdown");
+  dropdownBtn.addEventListener("click", function(event) { event.stopPropagation(); dropdown.classList.toggle("show"); });
+  document.addEventListener("click", function(event) { if (!dropdown.contains(event.target) && !dropdownBtn.contains(event.target)) dropdown.classList.remove("show"); });
+  dropdown.querySelectorAll("button").forEach(button => button.addEventListener("click", function() { dropdown.classList.remove("show"); }));
+
+  const appearanceBtn = document.getElementById("appearanceOption");
+  const savedTheme = localStorage.getItem("absTheme");
+  if (savedTheme === "light") { document.body.classList.add("light-mode"); appearanceBtn.textContent = "🌙 Mode sombre"; }
+  else { appearanceBtn.textContent = "☀️ Mode clair"; }
+  appearanceBtn.addEventListener("click", function() {
+    document.body.classList.toggle("light-mode");
+    const isLight = document.body.classList.contains("light-mode");
+    localStorage.setItem("absTheme", isLight ? "light" : "dark");
+    appearanceBtn.textContent = isLight ? "🌙 Mode sombre" : "☀️ Mode clair";
+  });
+
+  document.getElementById("shareOption").addEventListener("click", async () => {
+    const shareData = { title: "ABS Boutique", text: "Découvrez ABS Boutique", url: window.location.href };
+    try { if (navigator.share) await navigator.share(shareData); else { await navigator.clipboard.writeText(window.location.href); alert("Lien ABS copié."); } }
+    catch (error) { if (error.name !== "AbortError") console.error("Share error:", error); }
+  });
+  document.getElementById("helpOption").addEventListener("click", () => document.getElementById("contact").scrollIntoView({behavior:"smooth"}));
+  document.getElementById("aboutOption").addEventListener("click", () => alert("ABS Boutique • Niger"));
+  document.getElementById("privacyOption").addEventListener("click", () => alert("Vos informations de commande servent à traiter votre demande auprès d’ABS."));
+  document.getElementById("languageOption").addEventListener("click", () => alert("La langue actuellement disponible est le français."));
+});
+</script>
+</body>
+</html>
