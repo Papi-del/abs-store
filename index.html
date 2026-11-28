@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="abs-app" content="ABS">
+<meta name="abs-default-language" content="auto">
+<meta name="description" content="ABS Marketplace, une marketplace africaine pour découvrir et acheter des produits près de chez vous.">
+<link rel="manifest" href="manifest.json">
+<title>ABS Marketplace | Acheter et vendre en Afrique</title>
+<style>
+:root{--black:#0b0b0d;--gold:#d4af37;--white:#fff;--muted:#b9b9bf;--card:#151519;--line:#303036}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--black);color:var(--white)}
+header{position:sticky;top:0;z-index:20;background:#0b0b0dec;border-bottom:1px solid #29292e;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:27px;font-weight:900;color:var(--gold);letter-spacing:3px}
+.menu-btn{background:transparent;border:0;color:var(--gold);font-size:27px;cursor:pointer;padding:7px}
+.cart-btn,.primary{background:var(--gold);border:0;padding:11px 14px;border-radius:8px;font-weight:800;color:#111;cursor:pointer}
+nav{display:flex;gap:15px;flex-wrap:wrap;padding:12px 18px;justify-content:center}
+nav a{color:white;text-decoration:none}
+.hero{text-align:center;padding:48px 18px;background:linear-gradient(135deg,#111116,#080808)}
+.hero h1{font-size:42px;margin:0 0 10px;color:var(--gold)}
+.hero p{color:#ddd}
+section{max-width:1100px;margin:auto;padding:28px 18px}
+h2{color:var(--gold)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.filters button{background:#202025;color:#fff;border:1px solid #3a3a40;padding:9px 13px;border-radius:20px;cursor:pointer}
+.filters button.active{background:var(--gold);color:#111}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
+.card{background:var(--card);border:1px solid #2b2b31;border-radius:14px;overflow:hidden}
+.photo{height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.photo img{width:100%;height:100%;object-fit:contain}
+.info{padding:14px}.cat{color:var(--muted);font-size:13px}
+.price{color:var(--gold);font-weight:800;font-size:19px;margin:8px 0}
+.add{width:100%;padding:11px;border:0;border-radius:8px;background:var(--gold);font-weight:800;cursor:pointer}
+#cart{background:#101014}
+.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #29292e;padding:12px 0}
+.qty button{padding:4px 9px;margin:0 2px;cursor:pointer}
+.total{font-size:22px;color:var(--gold);font-weight:800;margin-top:18px}
+form,.panel{display:grid;gap:12px;background:var(--card);padding:18px;border-radius:14px}
+input,select,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #3b3b42;background:#0c0c0f;color:#fff}
+label{font-size:14px;color:#ddd;display:block}
+label input,label select,label textarea{margin-top:6px}
+.submit{padding:14px;background:var(--gold);color:#111;border:0;border-radius:9px;font-weight:900;font-size:16px;cursor:pointer}
+.note{color:#aaa;font-size:13px;line-height:1.5}
+footer{text-align:center;padding:28px;color:#999;border-top:1px solid #29292e}
+.sidebar{position:fixed;top:0;left:-290px;width:280px;max-width:85vw;height:100vh;background:#151519;z-index:1002;padding:22px 18px;transition:left .3s;overflow-y:auto}
+.sidebar.open{left:0}.sidebar a{display:block;color:white;text-decoration:none;padding:13px 9px;border-bottom:1px solid #303036}
+.menu-overlay{display:none;position:fixed;inset:0;background:#000a;z-index:1001}.menu-overlay.show{display:block}
+.dropdown{display:none;position:absolute;top:60px;right:10px;background:#1b1b20;border:1px solid var(--gold);border-radius:10px;min-width:190px;z-index:1003}
+.dropdown.show{display:block}.dropdown button{display:block;width:100%;padding:12px;background:transparent;border:0;color:white;text-align:left;cursor:pointer}
+.product-modal{display:none;position:fixed;inset:0;z-index:1004;background:#0b0b0d;overflow:auto}
+.product-modal.open{display:block}.product-modal-content{padding:18px;max-width:760px;margin:auto}
+.product-modal-content img{width:100%;height:45vh;max-height:450px;object-fit:contain;display:block;margin:10px auto 20px}
+.detail-close,.detail-add{border:0;border-radius:8px;padding:12px;font-weight:bold;cursor:pointer}
+.detail-close{background:#29292e;color:white}.detail-add{background:var(--gold);width:100%;margin-top:12px}
+.detail-price{font-size:20px;font-weight:bold;color:var(--gold);margin:12px 0}
+.status{padding:10px;border-radius:8px;background:#222;color:#eee;white-space:pre-wrap}
+.order-card{border:1px solid var(--line);border-radius:10px;padding:14px;margin:10px 0;background:#101014}
+.order-card strong{color:var(--gold)}
+body.light-mode{--black:#f8f8f8;--white:#151515;--muted:#555;--card:#fff;background:var(--black);color:var(--white)}
+body.light-mode header{background:#fff;border-color:#ddd}
+body.light-mode nav a,body.light-mode .sidebar a,body.light-mode .dropdown button{color:#151515}
+body.light-mode .hero{background:linear-gradient(135deg,#fff,#eee)}
+body.light-mode .hero p{color:#444}
+body.light-mode .sidebar,body.light-mode .dropdown,body.light-mode form,body.light-mode .panel{background:#fff;color:#151515}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:#fff;color:#151515}
+body.light-mode #cart,body.light-mode .order-card{background:#eee}
+body.light-mode .filters button{background:#eee;color:#151515}
+body.light-mode .filters button.active{background:var(--gold)}
+body.light-mode .photo{background:#fff}
+@media(max-width:520px){.hero h1{font-size:34px}section{padding:22px 13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.photo{height:145px}}
+</style>
+</head>
+<body>
+<header>
+  <button class="menu-btn" id="openSidebar" aria-label="Ouvrir le menu">☰</button>
+  <div class="logo">ABS</div>
+  <div style="display:flex;align-items:center;gap:7px">
+    <button class="cart-btn" id="cartTop">🛒 <span id="count">0</span></button>
+    <button class="menu-btn" id="openDropdown" aria-label="Plus d'options">⋮</button>
+  </div>
+</header>
+<div class="dropdown" id="optionsDropdown">
+  <button type="button" id="languageOption">🌍 Langue</button>
+  <button type="button" id="appearanceOption">☀️ Apparence</button>
+  <button type="button" id="shareOption">📤 Partager ABS</button>
+  <button type="button" id="helpOption">❓ Aide</button>
+  <button type="button" id="aboutOption">ℹ️ À propos</button>
+  <button type="button" id="privacyOption">🔒 Confidentialité</button>
+</div>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <button class="menu-btn" id="closeSidebar" aria-label="Fermer">✕</button>
+  <h2>🛍️ ABS Marketplace</h2>
+  <p class="note">Acheter et vendre en Afrique</p>
+  <a href="#home">🏠 Accueil</a>
+  <a href="#shop">🛍️ Tous les produits</a>
+  <a href="#cart">🛒 Mon panier</a>
+  <a href="#account">👤 Mon compte</a>
+  <a href="#orders">📦 Mes commandes</a>
+  <a href="#checkout">Commander</a>
+  <a href="vendeur.html">🏪 Devenir vendeur</a>
+  <a href="connexion-vendeur.html">🔐 Connexion vendeur</a>
+  <a href="#contact">💬 Assistance</a>
+</aside>
+<nav>
+  <a href="#home">Accueil</a><a href="#shop">Boutique</a><a href="#account">Mon compte</a><a href="#orders">Mes commandes</a>
+</nav>
+<main>
+<section class="hero" id="home">
+  <h1>ABS Marketplace</h1>
+  <p>Une marketplace africaine pour tous.</p>
+  <p>Découvrez des produits proposés par des vendeurs de votre pays.</p>
+</section>
+
+<section id="market">
+  <h2>Choisissez votre marketplace</h2>
+  <div class="panel">
+    <label>Pays
+      <select id="countrySelect" required></select>
+    </label>
+    <p class="note" id="countryCurrency"></p>
+    <p class="note">Chaque pays dispose de son propre espace de produits et de vendeurs.</p>
+  </div>
+</section>
+
+<section id="shop">
+  <h2>Nos produits</h2>
+  <div class="filters">
+    <button class="active" data-cat="all">Tous</button>
+    <button data-cat="Parfums">Parfums</button>
+    <button data-cat="Sacs">Sacs</button>
+    <button data-cat="Chaussures">Chaussures</button>
+    <button data-cat="Soins de beauté">Soins</button>
+    <button data-cat="Mode">Mode</button>
+    <button data-cat="Électronique">Électronique</button>
+    <button data-cat="Maison">Maison</button>
+  </div>
+  <div class="grid" id="products"></div>
+  <p class="note" id="productNotice"></p>
+</section>
+
+<div class="product-modal" id="productModal" role="dialog" aria-modal="true">
+  <div class="product-modal-content">
+    <button type="button" class="detail-close" id="closeProduct">Fermer ✕</button>
+    <img id="detailImage" src="" alt="">
+    <div class="cat" id="detailCategory"></div>
+    <h3 id="detailName"></h3>
+    <p id="detailDescription"></p>
+    <div class="detail-price" id="detailPrice"></div>
+    <button type="button" class="detail-add" id="detailAdd">Ajouter au panier</button>
+  </div>
+</div>
+
+<section id="cart">
+  <h2>Votre panier</h2>
+  <div id="cartItems"><p class="note">Votre panier est vide.</p></div>
+  <div class="total">Total : <span id="total">0</span></div>
+</section>
+
+<section id="account">
+  <h2>Mon compte ABS</h2>
+  <div class="panel">
+    <p class="note">Connectez-vous pour passer une commande et consulter votre historique.</p>
+    <label>Adresse e-mail<input id="accountEmail" type="email" autocomplete="email" placeholder="Votre adresse e-mail"></label>
+    <label>Mot de passe<input id="accountPassword" type="password" autocomplete="current-password" placeholder="Mot de passe"></label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="primary" type="button" id="createAccountBtn">Créer mon compte</button>
+      <button class="primary" type="button" id="loginBtn">Se connecter</button>
+      <button class="primary" type="button" id="logoutBtn" hidden>Se déconnecter</button>
+    </div>
+    <p id="accountMessage" class="status" role="status">Vous n'êtes pas connecté.</p>
+  </div>
+</section>
+
+<section id="orders">
+  <h2>Mes commandes</h2>
+  <div id="ordersList" class="panel"><p class="note">Connectez-vous pour consulter vos commandes.</p></div>
+</section>
+
+<section id="checkout">
+  <h2>Passer la commande</h2>
+  <form id="orderForm">
+    <label>Nom complet<input name="name" required placeholder="Votre nom complet"></label>
+    <label>Téléphone<input name="phone" required inputmode="tel" placeholder="Votre numéro de téléphone"></label>
+    <label>Pays<select name="country" id="checkoutCountry" required></select></label>
+    <label>Région / État / Province<select name="region" id="regionSelect" required><option value="">Choisissez d'abord un pays</option></select></label>
+    <label>Ville<input name="city" id="cityInput" required placeholder="Votre ville"></label>
+    <label>Quartier / adresse<textarea name="address" required placeholder="Quartier, rue ou repère"></textarea></label>
+    <label>Moyen de paiement<select name="payment" required><option value="">Choisir</option><option>Paiement à la livraison</option><option>Paiement mobile</option><option>Virement bancaire</option><option>Autre, à convenir</option></select></label>
+    <label>Mode de réception<select name="delivery" required><option value="">Choisir</option><option>Livraison à domicile</option><option>Retrait convenu avec le vendeur</option></select></label>
+    <div class="status" id="checkoutSummary">Le total sera calculé selon les produits de votre panier.</div>
+    <p class="note">Les frais et modalités de livraison sont confirmés selon le vendeur et la destination. ABS ne fournit pas directement le service de livraison.</p>
+    <button class="submit" type="submit">Confirmer ma commande</button>
+    <p class="note">Votre commande sera enregistrée dans votre compte ABS. WhatsApp n'est pas utilisé pour envoyer votre commande.</p>
+  </form>
+</section>
+
+<section id="contact">
+  <h2>Assistance ABS</h2>
+  <p>Pour toute question concernant votre compte ou la marketplace, utilisez le menu Aide ou contactez le support ABS via les coordonnées officielles publiées dans l'application.</p>
+</section>
+</main>
+<footer>© 2026 ABS Marketplace. Tous droits réservés.</footer>
